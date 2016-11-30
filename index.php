@@ -40,12 +40,13 @@
   <script src="http://nctest-server.nis.netease.com/js/c.js"></script>
   <script>
       var opts = {
+        "element": "captcha_div", // 元素id
         "staticServer": "nctest-server.nis.netease.com",
         "apiServer": "nctest-server.nis.netease.com",
-        "captchaId": "c0b0adce9ce2488f845bc4df86100d3e",
+        "captchaId": "6b144233421749dabd8f5081f792040f",
         "width": 320
       }
-      var instance = new NECaptcha(document.getElementById('captcha_div'), opts);
+      var instance = new NECaptcha(opts);
   </script>
 </body>
 </html>

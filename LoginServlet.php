@@ -8,15 +8,18 @@
 
 	session_start();
 	$verifier = new NECaptchaVerifier(CAPTCHA_ID, new SecretPair(SECRET_ID, SECRET_KEY));
-	$validate = $_POST['NECaptchaValidate'];
-	$user = "{'user':123456}";
+	$validate = $_POST['NECaptchaValidate']; // 获得验证码二次校验数据
+	$user = "{'user':123456}"; // 当前用户信息，值可为空
 
-	$p = new SecretPair(SECRET_ID, SECRET_KEY);
-	echo $p->secret_id;
 	$result = $verifier->verify($validate, $user);
+
 	if($result){
-		echo "验证成功!";
+?>
+		<p>验证成功! <a href='/index.php'>回首页</a></p>
+<?php
 	}else{
-		echo "验证失败!";
+?>
+		<p>验证失败! <a href='/index.php'>回首页</a></p>
+<?php
 	}
 ?>

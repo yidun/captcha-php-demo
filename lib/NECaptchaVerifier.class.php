@@ -1,5 +1,8 @@
 <?php
 define("VERSION", "v1");
+define("API_TIMEOUT", 5);
+// define("API_URL", "http://c.dun.163yun.com/api/v1/verify");
+define("API_URL", "http://10.165.125.0:8181/api/v1/verify");
 /**
  * 易盾验证码二次校验SDK
  * @author yangweiqiang
@@ -7,6 +10,8 @@ define("VERSION", "v1");
 class NECaptchaVerifier {
     /**
      * 构造函数
+     * @param $captcha_id 验证码id
+     * @param $secret_pair 密钥对
      */
     public function __construct($captcha_id, $secret_pair) {
         $this->captcha_id  = $captcha_id;
@@ -19,23 +24,19 @@ class NECaptchaVerifier {
      * @param $user 用户信息
      */
     public function verify($validate, $user) {
-        var_dump($this->secret_pair);
-        // echo $this->secret_pair->secret_key;
-
         $params = array();
         $params["captchaId"] = $this->captcha_id;
         $params["validate"] = $validate;
         $params["user"] = $user;
         // 公共参数
-        $params["secretId"] = ($this->secret_pair)->secret_id;
+        $params["secretId"] = $this->secret_pair->secret_id;
         $params["version"] = VERSION;
         $params["timestamp"] = sprintf("%d", round(microtime(true)*1000));// time in milliseconds
         $params["nonce"] = sprintf("%d", rand()); // random int
-        $params["signature"] = $this->sign(($this->secret_pair)->secret_key, $params);
+        $params["signature"] = $this->sign($this->secret_pair->secret_key, $params);
 
-        var_dump($params);
         $result = $this->send_http_request($params);
-        var_dump($result);
+        return array_key_exists('result', $result) ? $result['result'] : false;
     }
 
     /**
@@ -44,7 +45,7 @@ class NECaptchaVerifier {
      * @param $params 请求参数
      */
     private function sign($secret_key, $params){
-        ksort($params); // 参数排序拼接
+        ksort($params); // 参数排序
         $buff="";
         foreach($params as $key=>$value){
             $buff .=$key;
@@ -56,7 +57,8 @@ class NECaptchaVerifier {
 
     /**
      * 发送http请求
-     * $params 请求参数
+     * // TODO 这里需要改成优先使用curl
+     * @param $params 请求参数
      */
     private function send_http_request($params){
         $options = array(
@@ -70,7 +72,7 @@ class NECaptchaVerifier {
         $context  = stream_context_create($options);
         $result = file_get_contents(API_URL, false, $context);
         if($result === FALSE){
-            return array("code"=>500, "msg"=>"file_get_contents failed.");
+            return array("error"=>500, "msg"=>"file_get_contents failed.", "result"=>false);
         }else{
             return json_decode($result, true);  
         }
