@@ -1,8 +1,7 @@
 <?php
 define("VERSION", "v1");
 define("API_TIMEOUT", 5);
-// define("API_URL", "http://c.dun.163yun.com/api/v1/verify");
-define("API_URL", "http://10.165.125.0:8181/api/v1/verify");
+define("API_URL", "http://c.dun.163yun.com/api/v1/verify");
 /**
  * 易盾验证码二次校验SDK
  * @author yangweiqiang

@@ -2,9 +2,9 @@
 	require_once dirname(__FILE__) . '/lib/NECaptchaVerifier.class.php';
 	require_once dirname(__FILE__) . '/lib/SecretPair.class.php';
 
-	define("CAPTCHA_ID", "6b144233421749dabd8f5081f792040f");
-	define("SECRET_ID", "00461255961a4143acd1bde096c6cbfe");
-	define("SECRET_KEY", "f493a769b52a4cada27d31eb10e60d97");
+	define("CAPTCHA_ID", "YOUR_CAPTCHA_ID"); // 验证码id
+	define("SECRET_ID", "YOUR_SECRET_ID");   // 验证码密钥对id
+	define("SECRET_KEY", "YOUR_SECRET_KEY"); // 验证码密钥对key
 
 	session_start();
 	$verifier = new NECaptchaVerifier(CAPTCHA_ID, new SecretPair(SECRET_ID, SECRET_KEY));
