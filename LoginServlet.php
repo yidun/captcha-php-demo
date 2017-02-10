@@ -9,6 +9,9 @@
 	session_start();
 	$verifier = new NECaptchaVerifier(CAPTCHA_ID, new SecretPair(SECRET_ID, SECRET_KEY));
 	$validate = $_POST['NECaptchaValidate']; // 获得验证码二次校验数据
+	if(get_magic_quotes_gpc()){// PHP 5.4之前默认会将参数值里的 \ 转义成 \\，这里做一下反转义
+        $validate = stripcslashes($validate);
+    }
 	$user = "{'user':123456}"; // 当前用户信息，值可为空
 
 	$result = $verifier->verify($validate, $user);
