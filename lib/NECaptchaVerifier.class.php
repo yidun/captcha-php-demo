@@ -71,11 +71,14 @@ class NECaptchaVerifier {
          * However, if the CURLOPT_RETURNTRANSFER option is set, it will return the result on success, FALSE on failure.
          */
         $result = curl_exec($ch);
-        curl_close($ch);
-
-        if($result === FALSE){
-            return array("error"=>500, "msg"=>curl_error($ch), "result"=>false);
+        // var_dump($result);
+        
+        if(curl_errno($ch)){
+            $msg = curl_error($ch);
+            curl_close($ch);
+            return array("error"=>500, "msg"=>$msg, "result"=>false);
         }else{
+            curl_close($ch);
             return json_decode($result, true);  
         }
     }
