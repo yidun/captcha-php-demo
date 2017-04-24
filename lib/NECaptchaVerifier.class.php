@@ -56,22 +56,25 @@ class NECaptchaVerifier {
 
     /**
      * 发送http请求
-     * // TODO 这里需要改成优先使用curl
      * @param $params 请求参数
      */
     private function send_http_request($params){
-        $options = array(
-            'http' => array(
-                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method'  => 'POST',
-                'timeout' => API_TIMEOUT, // read timeout in seconds
-                'content' => http_build_query($params),
-            ),
-        );
-        $context  = stream_context_create($options);
-        $result = file_get_contents(API_URL, false, $context);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, API_URL);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, API_TIMEOUT);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+
+        /*
+         * Returns TRUE on success or FALSE on failure. 
+         * However, if the CURLOPT_RETURNTRANSFER option is set, it will return the result on success, FALSE on failure.
+         */
+        $result = curl_exec($ch);
+        curl_close($ch);
+
         if($result === FALSE){
-            return array("error"=>500, "msg"=>"file_get_contents failed.", "result"=>false);
+            return array("error"=>500, "msg"=>curl_error($ch), "result"=>false);
         }else{
             return json_decode($result, true);  
         }
