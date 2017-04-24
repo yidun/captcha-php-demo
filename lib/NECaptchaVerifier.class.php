@@ -63,6 +63,7 @@ class NECaptchaVerifier {
         curl_setopt($ch, CURLOPT_URL, API_URL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, API_TIMEOUT);
         curl_setopt($ch, CURLOPT_TIMEOUT, API_TIMEOUT);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
 
