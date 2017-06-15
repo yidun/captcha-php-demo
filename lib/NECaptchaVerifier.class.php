@@ -1,7 +1,7 @@
 <?php
-define("VERSION", "v1");
+define("VERSION", "v2");
 define("API_TIMEOUT", 5);
-define("API_URL", "http://c.dun.163yun.com/api/v1/verify");
+define("API_URL", "http://c.dun.163yun.com/api/v2/verify");
 /**
  * 易盾验证码二次校验SDK
  * @author yangweiqiang
