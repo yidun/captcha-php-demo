@@ -1,7 +1,7 @@
 <?php
-define("VERSION", "v2");
-define("API_TIMEOUT", 5);
-define("API_URL", "http://c.dun.163yun.com/api/v2/verify");
+define("YIDUN_CAPTCHA_API_VERSION", "v2");
+define("YIDUN_CAPTCHA_API_TIMEOUT", 5);
+define("YIDUN_CAPTCHA_API_URL", "http://c.dun.163yun.com/api/v2/verify");
 /**
  * 易盾验证码二次校验SDK
  * @author yangweiqiang
@@ -29,7 +29,7 @@ class NECaptchaVerifier {
         $params["user"] = $user;
         // 公共参数
         $params["secretId"] = $this->secret_pair->secret_id;
-        $params["version"] = VERSION;
+        $params["version"] = YIDUN_CAPTCHA_API_VERSION;
         $params["timestamp"] = sprintf("%d", round(microtime(true)*1000));// time in milliseconds
         $params["nonce"] = sprintf("%d", rand()); // random int
         $params["signature"] = $this->sign($this->secret_pair->secret_key, $params);
@@ -60,11 +60,11 @@ class NECaptchaVerifier {
      */
     private function send_http_request($params){
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, API_URL);
+        curl_setopt($ch, CURLOPT_URL, YIDUN_CAPTCHA_API_URL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, API_TIMEOUT);
-        curl_setopt($ch, CURLOPT_TIMEOUT, API_TIMEOUT);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, YIDUN_CAPTCHA_API_TIMEOUT);
+        curl_setopt($ch, CURLOPT_TIMEOUT, YIDUN_CAPTCHA_API_TIMEOUT);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
 
         /*
