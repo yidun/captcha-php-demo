@@ -23,9 +23,9 @@ initNECaptcha({
 
 * 修改LoginServlet.php
 ```
-	define("CAPTCHA_ID", "YOUR_CAPTCHA_ID"); // 验证码id
-	define("SECRET_ID", "YOUR_SECRET_ID");   // 验证码密钥对id
-	define("SECRET_KEY", "YOUR_SECRET_KEY"); // 验证码密钥对key
+	define("YIDUN_CAPTCHA_ID", "YOUR_CAPTCHA_ID"); // 验证码id
+	define("YIDUN_SECRET_ID", "YOUR_SECRET_ID");   // 验证码密钥对id
+	define("YIDUN_SECRET_KEY", "YOUR_SECRET_KEY"); // 验证码密钥对key
 ```
 
 * `php -S 127.0.0.1:8181`
