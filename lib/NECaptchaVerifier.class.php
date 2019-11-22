@@ -51,7 +51,7 @@ class NECaptchaVerifier {
             $buff .=$value;
         }
         $buff .= $secret_key;
-        return md5($buff);
+        return md5(mb_convert_encoding($buff, "utf8", "auto"));
     }
 
     /**
